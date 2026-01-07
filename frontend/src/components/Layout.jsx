@@ -11,7 +11,7 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: '100vh' }}>
       <nav
         style={{
           padding: '15px 20px',

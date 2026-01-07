@@ -1,7 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import Layout from './components/Layout';
+import { useEffect } from 'react';
 
 // Pages
 import Home from './pages/Home';
@@ -17,11 +18,22 @@ import RestaurantMenu from './pages/customer/RestaurantMenu';
 import CreateOrder from './pages/customer/CreateOrder';
 import Orders from './pages/customer/Orders';
 
+// Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+  return null;
+}
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
+        <ScrollToTop />
+        <div className="page-transition">
+          <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
@@ -90,7 +102,8 @@ function App() {
 
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+          </Routes>
+        </div>
       </Router>
     </AuthProvider>
   );
