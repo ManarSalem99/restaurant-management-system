@@ -27,13 +27,12 @@ function ScrollToTop() {
   return null;
 }
 
-function App() {
+function AppRoutes() {
   return (
-    <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="page-transition">
-          <Routes>
+    <>
+      <ScrollToTop />
+      <div className="page-transition">
+        <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
@@ -102,8 +101,17 @@ function App() {
 
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
+        </Routes>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
       </Router>
     </AuthProvider>
   );
