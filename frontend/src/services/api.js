@@ -7,7 +7,11 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 30000, // 30 second timeout
 });
+
+// Log the API URL being used (for debugging)
+console.log('API Base URL:', API_BASE_URL);
 
 // Add token to requests
 api.interceptors.request.use((config) => {
@@ -17,6 +21,20 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Handle errors globally
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error);
+    if (error.code === 'ECONNABORTED') {
+      error.message = 'Request timeout. Please check your connection.';
+    } else if (!error.response) {
+      error.message = 'Network error. Cannot connect to the server.';
+    }
+    return Promise.reject(error);
+  }
+);
 
 // Auth API
 export const authAPI = {

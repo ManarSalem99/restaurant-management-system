@@ -21,7 +21,12 @@ export default function Register() {
       await register(email, password, name, role);
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      console.error('Registration error:', err);
+      const errorMessage = 
+        err.response?.data?.message || 
+        err.message || 
+        'Registration failed. Please check your connection and try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
